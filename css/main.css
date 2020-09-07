@@ -1,0 +1,26 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#menuCont {
+  display: flex;
+  height: 60vh;
+  width: 100%;
+}
+
+.mm-navbars_bottom a {
+  font-size: 1.5em;
+}
+
+.mm-searchfield > input::placeholder,
+.mm-searchfield > input:-ms-input-placeholder,
+.mm-searchfield > input::-ms-input-placeholder {
+  color: red;
+  opacity: 1;
+}

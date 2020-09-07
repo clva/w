@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLV | WiFi</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/w3.css" />
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'PT Mono', 'Courier New', Courier, monospace;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            background: #222;
+            color: #ddd;
+        }
+
+        #main {
+            display: flex;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 1em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="main">
+
+        <div class="container text-center">
+            <form id="mainForm">
+                <div class="input-group input-group-sm mb-3">
+                    <input id="cpin" type="text" class="form-control">
+                    <div class="input-group-append">
+                        <span class="input-group-text btn" id="cpbn">Copy</span>
+                    </div>
+                </div>
+            </form>
+            <div class="collapse" id="collapseExample">
+                <form id="keyList">
+                </form>
+            </div>
+            <span class="btn w3-green btn-sm" data-toggle="collapse" data-target="#collapseExample"
+                aria-expanded="false" aria-controls="collapse">More Keys</span>
+        </div>
+    </div>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/crypto-js.min.js"></script>
+    <script src="../js/clipboard.min.js"></script>
+    <script>
+        $(function () {
+            new ClipboardJS('.btn');
+
+            let d = new Date();
+            let dy = '' + d.getFullYear();
+            let dm = d.getMonth() + 1;
+            let dd = d.getDate();
+            dy = dy.substring(2, 3);
+            dm < 10 ? dm = '0' + dm : dm = '' + dm;
+            dd < 10 ? dd = '0' + dd : dd = dd;
+            let s = '' + dy + dm + dd;
+            let n = "NC-AM1_X00TD" + s;
+            $("#cpin").val(n);
+            $("#cpbn").attr('data-clipboard-text', n);
+            let hm = CryptoJS.HmacSHA512(s, n).toString(CryptoJS.enc.Hex);
+            let i = 0;
+            while (hm.length > 0) {
+                let a = hm.substring(0, 16);
+                hm = hm.substring(16, hm.length);
+                let tag = '' + '<div class="input-group input-group-sm mb-3"><input type="text" class="form-control" id="ci' +
+                    i + '"><div class="input-group-append"><span class="input-group-text btn" id="cp' +
+                    i + '" data-clipboard-text="' + a + '">Copy</span></div></div>';
+                if (i == 0) {
+                    $("#mainForm").append(tag);
+                }
+                else {
+                    $("#keyList").append(tag);
+                }
+                $("#ci" + i).val(a.match(/.{1,4}/g).join("-"));
+                i++;
+            }
+        });
+    </script>
+</body>
+
+</html>

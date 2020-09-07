@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLV | CRPT</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/w3.css" />
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'PT Mono', 'Courier New', Courier, monospace;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            background: #222;
+            color: #ddd;
+        }
+
+        #main {
+            display: flex;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 1em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="main">
+        <form class="container">
+            <div class="form-group">
+                <textarea class="form-control" name="ot1" id="ot1" cols="auto" rows="5" placeholder="Out..."></textarea>
+            </div>
+            <div class="form-group btn-group d-flex" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-primary" name="submit0" id="sub0">PH</button>
+                <button type="button" class="btn btn-success" name="submit1" id="sub1">E</button>
+                <button type="button" class="btn btn-danger" name="submit2" id="sub2">D</button>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="in1" id="in1" placeholder="Enter P..." />
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="in2" id="in2" placeholder="Enter K..." />
+            </div>
+        </form>
+    </div>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/crypto-js.min.js"></script>
+    <script src="../js/clipboard.min.js"></script>
+    <script>
+        $(function () {
+            let oen = '', odc = '', ohs = '';
+            $("#sub0").click(function () {
+                crptH();
+            });$("#sub1").click(function () {
+                crptE();
+            });$("#sub2").click(function () {
+                crptD();
+            });
+
+            function crptE() {
+                let p = $("#in1").val(), k = $("#in2").val();
+                oen = CryptoJS.TripleDES.encrypt(p, k).toString();
+                $("#ot1").val(oen);
+            }
+            function crptD() {
+                let p = $("#in1").val(), k = $("#in2").val();
+                odc = CryptoJS.TripleDES.decrypt(p, k).toString(CryptoJS.enc.Utf8);
+                $("#ot1").val('dDone!');
+            }
+            function crptH() {
+                let p = '' + CryptoJS.SHA3($("#in1").val(), { outputLength: 512 }).toString(CryptoJS.enc.Base64),
+                    k = '' + CryptoJS.SHA3($("#in2").val(), { outputLength: 512 }).toString(CryptoJS.enc.Base64);
+                ohs = '' + CryptoJS.HmacSHA512(p, k).toString(CryptoJS.enc.Base64).substring(30,66);
+                $("#ot1").val('hDone!');
+            }
+
+            new ClipboardJS('#sub1', {
+                text: function () {
+                    return oen;
+                }
+            });
+            new ClipboardJS('#sub2', {
+                text: function () {
+                    return odc;
+                }
+            });
+            new ClipboardJS('#sub0', {
+                text: function () {
+                    return (ohs + '~Tio1g$nt');
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

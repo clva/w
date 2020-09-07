@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>HSH</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/w3.css"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <style>
+        *{box-sizing: border-box;}
+        html, body{
+            margin: 0; padding: 0;
+        }
+        body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            height: 100%;
+            width: 100%;
+            min-height: 95vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container w3-red col-lg-6 col-md-8 text-center">
+        <div class="card text-center">
+            <div class="card-header">
+              Featured
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Special title treatment</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <div class="collapse w3-green" id="collapseExample">
+                    <div class="card card-body w3-aqua">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer btn bg-success w3-text-blue" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Hello
+            </div>
+        </div>
+        <p>
+            
+        </p>
+    </div>
+
+    <!--div id="out" class="container">
+        <div class="out" id="outname"></div>
+        <div data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Hello
+        </div>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+            </div>
+        </div>
+
+    </div-->
+
+    <script src="js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js" integrity="sha512-YSdqvJoZr83hj76AIVdOcvLWYMWzy6sJyIMic2aQz5kh2bPTd9dzY3NtdeEAzPp/PhgZqr4aJObB3ym/vsItMg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+    <script src="js/halfmoon.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/crypto-js.min.js"></script>
+    <script>
+        $(function(){
+            new ClipboardJS('.bt');
+            let day=new Date,dy=day.getFullYear(),dm=day.getMonth(),dd=day.getDate();
+            dm<10?dm='0'+dm:dm;
+            dd<10?dd='0'+dd:dd;
+            $("#outname").html("NC-AM1_X00TD"+dm+dd + "<button class='bt w3-button w3-tiny w3-aqua' data-clipboard-text='NC-AM1_X00TD"+dm+dd +"'>C</button>");
+            let dayHS = CryptoJS.SHA3("NCwifi"+ dy + dm + dd, { outputLength: 512 }).toString(CryptoJS.enc.Hex);
+            let i = 0;
+            while(i < dayHS.length){
+                let j = i + 16;
+                $("#out").append("<div class='out' id='div"+i/16+"'>" +
+                    dayHS.substring(i,j).match(/.{1,4}/g).join(" ") +
+                    "<button class='bt btn btn-primary btn-sm' data-clipboard-text='clvpw%"+ dayHS.substring(i,j) +"'><i class='fas fa-paste'></i></button>" +
+                    "</div>");
+                console.log( dayHS.substring(i, j) );
+                i = j;
+            }
+        });
+    </script>
+</body>
+</html>
